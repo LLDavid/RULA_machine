@@ -69,24 +69,24 @@ def data_aug(x_train, y_train):
     return x_new, y_new
 
 ## Load data
-txt_path1=r"/home/lli40/PyCode/MyProject/HFES2019/skel_17_all.txt"
-txt_path2=r"/home/lli40/PyCode/MyProject/HFES2019/gscore_merge.txt"
+txt_path1=r"./skel_17_all.txt"
+txt_path2=r"./gscore_merge.txt"
 skel_17=np.loadtxt(txt_path1, delimiter=",")
 gscore_merge=np.loadtxt(txt_path2)
-gscore_merge=np.reshape(gscore_merge, (527599,1))
+gscore_merge=np.reshape(gscore_merge, (527599,1)) # total number of samples
 
-
-
+## number of class
 n_class=7
+
 ## split data
 x_train, x_test, y_train, y_test = train_test_split(skel_17, gscore_merge, test_size=0.2, random_state=0)
 print(x_train.shape, x_test.shape, y_train.shape, y_test.shape)
-## Convert to one hot
 
+## Convert to one hot
 y_train  = Indices2OneHot(y_train -1)
 print(y_train.shape)
 
-
+## build network
 model=Sequential()
 model.add(Dense(1024, input_shape=(34,)))
 model.add(BatchNormalization())
@@ -111,14 +111,15 @@ model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['accuracy'], )
 
+## train
 train_rec=model.fit(x_train, y_train,
        nb_epoch=100, batch_size=2000, validation_split=0.2)
 
-
+## test
 probabilities = model.predict(x_test)
 predictions = np.argmax(probabilities, axis=-1)+1
 
-
+## print result
 print(classification_report(y_test, predictions))
 print(confusion_matrix(y_test, predictions))
 #savemat('result.mat', {'pred': predictions, 'gt': y_test})

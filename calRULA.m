@@ -1,6 +1,6 @@
-%function [gscore, nkscore, upascore, loascore, tpscore] = calRULA( skel_17 )
 function gscore = calRULA( skel_17 )
-
+%% skel_17: N * 3 matrix (N = 32 from human 3.6)
+%% initilization
 upascore=[0,0];
 loascore=[0,0];
 
@@ -125,9 +125,6 @@ for i=1:2
     
     
     
-    
-    
-    
 end
 nkscore=0;
 tpscore=0;
@@ -248,7 +245,7 @@ for i =1:2
     col_no_B=4;
     TAscore(i)=tableA_in(row_no_A, col_no_B);
     % step6: assume static and repeated occurs
-     %TAscore(i)=TAscore(i)+1;
+    %TAscore(i)=TAscore(i)+1;
     % step 7: assume load 4.4-22lbs
     %TAscore(i)=TAscore(i)+1;
     
